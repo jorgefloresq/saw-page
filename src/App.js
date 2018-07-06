@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './qtip.png';
+import './App.css';
 import { About } from './components/about';
 import { ArtImage } from './components/art-image';
 import { ConnectAuth } from './components/connect-auth';
