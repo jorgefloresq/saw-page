@@ -1,0 +1,56 @@
+/* about button */
+.nav-about div.container {
+    margin-left: 0
+}
+/* about modal */
+.modal-about .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}
+/* side menu buttons */
+.side-menu-button-group button.btn.btn-default {
+    background: transparent;
+    border-style: none;
+    margin-top: 30px;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+/* remove button outline when clicked */
+.side-menu-button-group button.btn.btn-default:focus {
+    outline: 0;
+}
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 30px;
+    height: 26px;
+    right: 36px;
+    top: 36px;
+}  
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: #373a47;
+}
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 30px !important;
+    width: 30px !important;
+}
+/* Color/shape of close button cross */
+.bm-cross {
+    background: #bdc3c7;
+    height: 20px !important;
+}
+/* General sidebar styles */
+.bm-menu {
+    background: #373a47;
+    padding: 2.5em 1.5em 0;
+    font-size: 1.15em;
+}
+/* Wrapper for item list */
+.bm-item-list {
+    padding: 0.8em;
+}
