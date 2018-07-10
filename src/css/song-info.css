@@ -1,0 +1,17 @@
+.song-title {
+    font-size: 2.8vw;
+}
+.song-artist {
+    font-size: 1.8vw;
+}
+.song-title, .song-artist {
+    font-weight: bold;
+}
+@media screen and (max-width: 767px) {
+    .song-title {
+        font-size: 4vh;
+    }
+    .song-artist {
+        font-size: 3vh;
+    }
+}

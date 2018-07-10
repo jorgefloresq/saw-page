@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../css/song-info.css'
 
 export class SongInfo extends Component {
   render() {
@@ -7,8 +8,8 @@ export class SongInfo extends Component {
 
     return (
       <div>
-        <h2>{ songTitle }</h2>
-        <h3>{ artist }</h3>
+        <h2 className="song-title">{ songTitle }</h2>
+        <h3 className="song-artist">{ artist }</h3>
       </div>
     );
   }
