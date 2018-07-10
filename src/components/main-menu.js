@@ -40,11 +40,16 @@ export class MainMenu extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.changeView = this.changeView.bind(this);
     this.changeBackground = this.changeBackground.bind(this);
+    this.menuIsOpen = this.menuIsOpen.bind(this);
     // state object
     this.state = {
+      showAbout: true,
       showModal: false,
       view: 'ViewArt'
     };
+  }
+  menuIsOpen(state) {
+    this.setState({ showAbout: !state.isOpen });
   }
   toggleModal(toggleValue) {
     this.setState({ showModal: toggleValue });
@@ -59,7 +64,7 @@ export class MainMenu extends Component {
     return (
       <div>
         {/* menu */}
-        <Menu right>
+        <Menu right onStateChange={this.menuIsOpen}>
           {/* view options */}
           <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
             {
@@ -103,7 +108,9 @@ export class MainMenu extends Component {
         { this.state.view === 'ViewLyrics' && <ViewLyrics/> }
         {/* about button */}
         <Navbar fixedBottom style={style.navbar} className="nav-about">
-          <Button bsStyle="info" onClick={()=> this.toggleModal(true)}>About</Button>
+          { this.state.showAbout && 
+            <Button bsStyle="info" onClick={()=> this.toggleModal(true)}>About</Button>
+          }
         </Navbar>
         {/* about modal */}
         <Modal show={this.state.showModal} onHide={()=> this.toggleModal(false)} className="modal-about">
