@@ -1,0 +1,45 @@
+.vai-container {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
+}
+.vai-art {
+    width: 65%;
+    margin: 0 100px 30px 100px;
+    min-width: 250px;
+    min-height: 250px;
+    max-width: 500px;
+    max-height: 500px;
+}
+.vai-art img {
+    width: 100%;
+    height: 100%;
+}
+.vai-info {
+    width: 35%;
+    text-align: left;
+}
+.vai-content {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+@media screen and (max-width: 767px) {
+    .vai-container {
+        align-items: center;
+    }
+    .vai-content {
+        flex-wrap: wrap;
+    }
+    .vai-art {
+        height: 65%;
+    }
+    .vai-info {
+        width: 100%;
+        text-align: center;
+    }
+}
