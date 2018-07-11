@@ -1,0 +1,25 @@
+.square {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    margin: 0 auto;
+}
+  
+.square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+    
+}
+
+.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+img {
+    width: 100%;
+    height: 100%;
+}
