@@ -1,6 +1,15 @@
 /* about button */
-.nav-about div.container {
-    margin-left: 0
+.nav-about div.container{
+    margin-left: 0;
+}
+.nav-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+button.nav-menu:focus {
+    outline: 0;
 }
 /* about modal */
 .modal-about .modal-dialog {
@@ -9,6 +18,9 @@
     left: 50%;
     transform: translate(-50%, -50%) !important;
 }
+
+/* SIDE MENU */
+
 /* side menu buttons */
 .side-menu-button-group button.btn.btn-default {
     background: transparent;
@@ -24,16 +36,13 @@
 }
 /* Position and sizing of burger button */
 .bm-burger-button {
+    /* prevent menu from opening by clicking anywhere on the screen */
     position: fixed;
-    width: 30px;
-    height: 26px;
-    right: 36px;
-    top: 36px;
 }  
 /* Color/shape of burger icon bars */
-.bm-burger-bars {
+/* .bm-burger-bars {
     background: #373a47;
-}
+} */
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
     height: 30px !important;
