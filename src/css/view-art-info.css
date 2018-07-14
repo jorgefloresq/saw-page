@@ -48,3 +48,11 @@
         text-align: center;
     }
 }
+
+#backgroundDiv{
+    transition: background-color 1000ms ease-in-out;
+}
+
+#textDiv{
+    transition: color 1000ms ease-in-out;
+}
