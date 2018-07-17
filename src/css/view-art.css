@@ -25,7 +25,3 @@ img {
     width: 100%;
     height: 100%;
 }
-
-#fade{
-    transition: background-color 1000ms ease-in-out;
-}

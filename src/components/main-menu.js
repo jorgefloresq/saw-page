@@ -5,6 +5,8 @@ import '../../src/css/main-menu.css';
 import { ViewArt } from './view-art';
 import { ViewArtInfo } from './view-art-info';
 import { ViewLyrics } from './view-lyrics';
+import * as Vibrant from '@akigami/vibrant';
+import { defaultB, dynamic, blurred } from './background-styles';
 
 let navbar = {
   background: 'transparent',
@@ -27,9 +29,9 @@ let viewOptions = [
   { glyph: 'glyphicon glyphicon-th-large', text: 'ViewLyrics' },
 ];
 let backgroundOptions = [
-  { glyph: 'glyphicon glyphicon-adjust', text: 'Default background', class: 'default-background' },
-  { glyph: 'glyphicon glyphicon-calendar', text: 'Dynamic background', class: 'dynamic-background' },
-  { glyph: 'glyphicon glyphicon-tasks', text: 'Blurred background', class: 'blurred-background' }
+  { glyph: 'glyphicon glyphicon-adjust', background: 'Default' },
+  { glyph: 'glyphicon glyphicon-calendar', background: 'Dynamic' },
+  { glyph: 'glyphicon glyphicon-tasks', background: 'Blurred' }
 ];
 
 export class MainMenu extends Component {
@@ -50,7 +52,8 @@ export class MainMenu extends Component {
       showMenu: true,
       menuIsOpen: false,
       view: 'ViewArt',
-      background: 'default-background',
+      background: defaultB,
+      fontColor: 'white',
       albumArt: 'https://i.scdn.co/image/26321d3457df376afade43b63104119b6ca6db60'
     };
   }
@@ -116,15 +119,70 @@ export class MainMenu extends Component {
      });    
   }
 
-  changeBackground(background) {
+  async changeBackground(background) {
+    // background
+    let bg;
+    // font color
+    let fc;
+    // default background selected
+    if (background === 'Default') {
+      // set background
+      bg = {...defaultB};
+      // set font color (view art info)
+      fc = 'white';
+    }
+    // dynamic background selected
+    else if (background === 'Dynamic') {
+      // background color
+      let darkVibrantRGB;
+      // font accent color
+      let vibrantRGB;
+      // create new vibrant
+      let v = new Vibrant(this.state.albumArt);
+      // get album art's color palette
+      await v.getPalette().then(palette => {
+        for(let swatch in palette){
+          if(swatch === 'DarkVibrant'){
+            let r = palette[swatch]._rgb[0];
+            let g = palette[swatch]._rgb[1];
+            let b = palette[swatch]._rgb[2];
+            darkVibrantRGB = 'rgb('+ r +', '+ g +', '+ b +')';
+            console.log(swatch, darkVibrantRGB);
+          }
+          else if(swatch === 'Vibrant'){
+            let r = palette[swatch]._rgb[0];
+            let g = palette[swatch]._rgb[1];
+            let b = palette[swatch]._rgb[2];
+            vibrantRGB = "rgb("+ r +", "+ g +", "+ b +")";
+            console.log(`vibrantRGB: ${vibrantRGB}`);
+          }
+        }
+      });
+      // set background
+      bg = {
+        ...dynamic,
+        background: darkVibrantRGB
+      };
+      // set font color (view art info)
+      fc = vibrantRGB;
+    }
+    // blurred background selected
+    else {
+      // set background
+      bg = { 
+        background: `url(${this.state.albumArt})`,
+        ...blurred
+      };      
+    }
     // change background
     this.setState({ 
-      // change background
-      background: background,
+      // set background
+      background: bg,
+      // set font color
+      fontColor: fc,
       // close menu
       menuIsOpen: false,
-    });
-    
+    });    
   }
 
   toggleModal(toggleValue) {
@@ -166,13 +224,13 @@ export class MainMenu extends Component {
           <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
             {
               backgroundOptions.map( option =>
-                <Button onClick={()=> {this.changeBackground(option.class)}}>
+                <Button onClick={()=> {this.changeBackground(option.background)}}>
                   <Row>
                     <Col xs={1}>
                       <Glyphicon glyph={option.glyph}/>
                     </Col>
                     <Col style={{textAlign: 'left'}} xs={10}>
-                      {option.text}
+                      {option.background}
                     </Col>
                   </Row>
                 </Button>
@@ -181,9 +239,9 @@ export class MainMenu extends Component {
           </ButtonGroup>
         </Menu>
         {/* content (views) */}
-        { this.state.view === 'ViewArt' && <ViewArt background={this.state.background} albumArt={this.state.albumArt}/> }
-        { this.state.view === 'ViewArtInfo' && <ViewArtInfo background={this.state.background} albumArt={this.state.albumArt}/> }
-        { this.state.view === 'ViewLyrics' && <ViewLyrics background={this.state.background} albumArt={this.state.albumArt}/> }
+        { this.state.view === 'ViewArt' && <ViewArt fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
+        { this.state.view === 'ViewArtInfo' && <ViewArtInfo fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
+        { this.state.view === 'ViewLyrics' && <ViewLyrics fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
         {/* about button */}
         <Navbar fixedBottom style={{...style.navbar, textAlign: 'left'}} className="nav-about">
           { this.state.showAbout && !this.state.menuIsOpen &&
@@ -204,6 +262,7 @@ export class MainMenu extends Component {
             <Button onClick={()=> this.toggleModal(false)}>Close</Button>
           </Modal.Footer>
         </Modal>
+        <div id="backgroundDiv" style={this.state.background}></div>
       </div>
     );
   }
