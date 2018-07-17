@@ -3,17 +3,13 @@ let defaultB = {
     background: 'rgb(31, 37, 43)'    
 };
 let dynamic = {
-    height: '100vh',
-    background: 'rgb(77, 211, 10)'
+    height: '100vh'
 };
 let blurred = {
-    position: 'relative',
-    // width: '99vw',
     height: '100vh',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    filter: 'blur(20px)',
-    zIndex: -10
+    filter: 'blur(20px)'
 };
 
 export { defaultB, dynamic, blurred }

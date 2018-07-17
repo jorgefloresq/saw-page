@@ -63,3 +63,6 @@ button.nav-menu:focus {
 .bm-item-list {
     padding: 0.8em;
 }
+#backgroundDiv{
+    transition: background 1000ms ease-in-out;
+}
