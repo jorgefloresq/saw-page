@@ -6,7 +6,7 @@ export class ViewLyrics extends Component {
     return (
       <div>
         <div className="vl-container">
-          <div className="vl-content">
+          <div className="vl-content" style={{color: this.props.fontColor}} >
             <div className="vl-song-title">Song Title</div>
             <div className="vl-artist">Artist</div>
             <p>
