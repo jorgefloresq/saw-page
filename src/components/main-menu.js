@@ -7,6 +7,7 @@ import { ViewArtInfo } from './view-art-info';
 import { ViewLyrics } from './view-lyrics';
 import * as Vibrant from '@akigami/vibrant';
 import { defaultB, dynamic, blurred } from './background-styles';
+import { getColors } from '../colors'
 
 let navbar = {
   background: 'transparent',
@@ -54,7 +55,7 @@ export class MainMenu extends Component {
       view: 'ViewArt',
       background: defaultB,
       fontColor: 'white',
-      albumArt: 'https://i.scdn.co/image/26321d3457df376afade43b63104119b6ca6db60'
+      albumArt: 'https://i.scdn.co/image/6ff58698ffb3e39ba66eae5b7028e047b321d965'
     };
   }
   // wait counter (wait 3s to hide menu buttons)
@@ -133,38 +134,20 @@ export class MainMenu extends Component {
     }
     // dynamic background selected
     else if (background === 'Dynamic') {
-      // background color
-      let darkVibrantRGB;
-      // font accent color
-      let vibrantRGB;
-      // create new vibrant
-      let v = new Vibrant(this.state.albumArt);
-      // get album art's color palette
-      await v.getPalette().then(palette => {
-        for(let swatch in palette){
-          if(swatch === 'DarkVibrant'){
-            let r = palette[swatch]._rgb[0];
-            let g = palette[swatch]._rgb[1];
-            let b = palette[swatch]._rgb[2];
-            darkVibrantRGB = 'rgb('+ r +', '+ g +', '+ b +')';
-            console.log(swatch, darkVibrantRGB);
-          }
-          else if(swatch === 'Vibrant'){
-            let r = palette[swatch]._rgb[0];
-            let g = palette[swatch]._rgb[1];
-            let b = palette[swatch]._rgb[2];
-            vibrantRGB = "rgb("+ r +", "+ g +", "+ b +")";
-            console.log(`vibrantRGB: ${vibrantRGB}`);
-          }
-        }
+
+      await getColors(this.state.albumArt).then( colors => {
+        //assign colors from array
+        let mainColor = colors[0];
+        let secondaryColor = colors[1];
+        let gradientColor = colors[2];
+        // set background
+        bg = {
+          ...dynamic,
+          background: mainColor
+        };
+        // set font color (view art info)
+        fc = secondaryColor;
       });
-      // set background
-      bg = {
-        ...dynamic,
-        background: darkVibrantRGB
-      };
-      // set font color (view art info)
-      fc = vibrantRGB;
     }
     // blurred background selected
     else {
