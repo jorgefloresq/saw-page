@@ -1,16 +1,10 @@
 import * as Vibrant from '@akigami/vibrant';
+import { isNull } from 'util';
 
 export async function getColors(albumArt) {
-    //initialize variables which store arrays with HSL Values
-    let vibrantHSL;
-    let lightVibrantHSL;
-    let darkVibrantHSL;
-    let mutedHSL;
-    let lightMutedHSL;
-    let darkMutedHSL;
 
     //Array stores HSL Values
-    let colorHSLArray = [6];
+    let colorHSLArray = [];
 
     //Number stored is highest population of all evaluated swatches
     let maxPop = 0;
@@ -20,66 +14,27 @@ export async function getColors(albumArt) {
     let secondaryColor;
     let gradientColor;
 
+    //stores array with HSL values
+    let swatchHSL;
+
     let v = new Vibrant(albumArt);
 
     //Promise returns a palette
-    await v.getPalette().then(palette => {
+    return await v.getPalette().then(palette => {
 
         //Iterate through palette and compare each type of swatch
         for (let swatch in palette) {
-
-            if (swatch === 'Vibrant') {
-                vibrantHSL = palette[swatch]._hsl;
-                colorHSLArray[0] = vibrantHSL;
+            //console.log(swatch, palette[swatch].getHex(), palette[swatch]._hsl);
+            //in case the color swatch is null it will not be added to array
+            if(palette[swatch] != null){
+                console.log(swatch, palette[swatch].getHex(), palette[swatch]._hsl);
+                swatchHSL = palette[swatch]._hsl;
+                colorHSLArray.push(swatchHSL);
 
                 //Store population if larger than previous
                 if (palette[swatch]._population > maxPop) {
                     maxPop = palette[swatch]._population;
-                    mainColor = vibrantHSL;
-                }
-            }
-            else if (swatch === 'LightVibrant') {
-                lightVibrantHSL = palette[swatch]._hsl;
-                colorHSLArray[1] = lightVibrantHSL;
-                if (palette[swatch]._population > maxPop) {
-                    maxPop = palette[swatch]._population;
-                    mainColor = lightVibrantHSL;
-                }
-
-            }
-            else if (swatch === 'DarkVibrant') {
-                darkVibrantHSL = palette[swatch]._hsl;
-                colorHSLArray[2] = darkVibrantHSL;
-                if (palette[swatch]._population > maxPop) {
-                    maxPop = palette[swatch]._population;
-                    mainColor = darkVibrantHSL;
-                }
-
-            }
-            else if (swatch === 'Muted') {
-                mutedHSL = palette[swatch]._hsl;
-                colorHSLArray[3] = darkVibrantHSL;
-                if (palette[swatch]._population > maxPop) {
-                    maxPop = palette[swatch]._population;
-                    mainColor = mutedHSL;
-                }
-
-            }
-            else if (swatch === 'LightMuted') {
-                lightMutedHSL = palette[swatch]._hsl;
-                colorHSLArray[4] = lightMutedHSL;
-                if (palette[swatch]._population > maxPop) {
-                    maxPop = palette[swatch]._population;
-                    mainColor = lightMutedHSL;
-                }
-
-            }
-            else if (swatch === 'DarkMuted') {
-                darkMutedHSL = palette[swatch]._hsl;
-                colorHSLArray[5] = darkMutedHSL;
-                if (palette[swatch]._population > maxPop) {
-                    maxPop = palette[swatch]._population;
-                    mainColor = darkMutedHSL;
+                    mainColor = swatchHSL;
                 }
             }
         }
@@ -105,6 +60,7 @@ export async function getColors(albumArt) {
 
 
         //Return array of hex values
+        console.log(colorArray)
         return colorArray;
     });
 
@@ -116,7 +72,7 @@ function getSecondaryColor(colorMap, mainLum) {
     let secondarySwatch;
     for (let hsl of colorMap) {
         if (Math.abs(hsl[2] - mainLum) > maxLumDiff) {
-            maxLumDiff = hsl[2];
+            maxLumDiff = Math.abs(hsl[2] - mainLum);
             secondarySwatch = hsl;
         }
     }
