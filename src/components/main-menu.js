@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Navbar, Button, Modal, ButtonGroup, Glyphicon, Row, Col } from 'react-bootstrap';
+import { Button, Modal, ButtonGroup, Row, Col } from 'react-bootstrap';
 import { slide as Menu } from 'react-burger-menu'
 import '../../src/css/main-menu.css';
 import { ViewArt } from './view-art';
 import { ViewArtInfo } from './view-art-info';
 import { ViewLyrics } from './view-lyrics';
-import * as Vibrant from '@akigami/vibrant';
 import { defaultB, dynamic, blurred } from './background-styles';
-import { getColors } from '../colors'
+import { getColors } from '../colors';
+import { Icon } from './icon';
 
 let navbar = {
   background: 'transparent',
@@ -15,8 +15,8 @@ let navbar = {
 };
 let separator = {
   margin: 'auto',
-  width: 200,
-  height: 1.5,
+  width: '60%',
+  height: 3,
   background: 'white',
   marginTop: 30
 };
@@ -25,14 +25,14 @@ let style = {
   separator: separator
 };
 let viewOptions = [
-  { glyph: 'glyphicon glyphicon-stop', text: 'ViewArt' },
-  { glyph: 'glyphicon glyphicon-th-list', text: 'ViewArtInfo' },
-  { glyph: 'glyphicon glyphicon-th-large', text: 'ViewLyrics' },
+  { icon: 'art', view: 'ViewArt' },
+  { icon: 'artInfo', view: 'ViewArtInfo' },
+  { icon: 'lyrics', view: 'ViewLyrics' },
 ];
 let backgroundOptions = [
-  { glyph: 'glyphicon glyphicon-adjust', background: 'Default' },
-  { glyph: 'glyphicon glyphicon-calendar', background: 'Dynamic' },
-  { glyph: 'glyphicon glyphicon-tasks', background: 'Blurred' }
+  { icon: 'default', background: 'Default' },
+  { icon: 'dynamic', background: 'Dynamic' },
+  { icon: 'blurred', background: 'Blurred' }
 ];
 
 export class MainMenu extends Component {
@@ -53,8 +53,10 @@ export class MainMenu extends Component {
       showMenu: true,
       menuIsOpen: false,
       view: 'ViewArt',
-      background: defaultB,
+      background: 'Default',
+      backgroundStyle: defaultB,
       fontColor: 'white',
+      cursor: 'default',
       albumArt: 'https://i.scdn.co/image/9f970a330561ac928fc9a8265dea3c003be9e964'
     };
   }
@@ -74,7 +76,8 @@ export class MainMenu extends Component {
     // show menu buttons
     this.setState({
       showAbout: true,
-      showMenu: true
+      showMenu: true,
+      cursor: 'default'
     }, ()=> {
       // set timeout to hide menu buttons
       this.timeout = this.hideButtons();
@@ -86,8 +89,9 @@ export class MainMenu extends Component {
       // hide menu buttons
       this.setState({ 
         showAbout: false,
-        showMenu: false
-      });      
+        showMenu: false,
+        cursor: 'none'
+      });
     }, 3000);
   }
 
@@ -159,8 +163,9 @@ export class MainMenu extends Component {
     }
     // change background
     this.setState({ 
+      background: background,
       // set background
-      background: bg,
+      backgroundStyle: bg,
       // set font color
       fontColor: fc,
       // close menu
@@ -175,62 +180,65 @@ export class MainMenu extends Component {
 
   render() { 
     return (
-      <div>
+      <div style={{cursor: this.state.cursor}}>
         {/* menu button */}
         { this.state.showMenu && 
           <Button bsSize="large" onClick={this.handleMenuButton} className="nav-menu">
-            <Glyphicon glyph="glyphicon glyphicon-menu-hamburger"/>
+            <Icon name="settings"/>
           </Button>
         }
         {/* menu */}
         <Menu right isOpen={this.state.menuIsOpen} onStateChange={this.handleMenuStateChange}>
-          {/* view options */}
-          <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
-            {
-              viewOptions.map( option =>
-                <Button onClick={()=> this.handleMenuItem(option.text)}>
-                  <Row>
-                    <Col xs={1}>
-                      <Glyphicon glyph={option.glyph}/>
-                    </Col>
-                    <Col style={{textAlign: 'left'}} xs={10}>
-                      {option.text}
-                    </Col>
-                  </Row>
-                </Button>
-              )
-            }
-          </ButtonGroup>
-          {/* separator */}
-          <div style={style.separator}></div>
-          {/* background options */}
-          <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
-            {
-              backgroundOptions.map( option =>
-                <Button onClick={()=> {this.changeBackground(option.background)}}>
-                  <Row>
-                    <Col xs={1}>
-                      <Glyphicon glyph={option.glyph}/>
-                    </Col>
-                    <Col style={{textAlign: 'left'}} xs={10}>
-                      {option.background}
-                    </Col>
-                  </Row>
-                </Button>
-              )
-            }
-          </ButtonGroup>
+          <div className="side-menu-content">
+            {/* view options */}
+            <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
+              {
+                viewOptions.map( option =>
+                  <Button onClick={()=> this.handleMenuItem(option.view)}>
+                    <Row>
+                      <Col xs={12}>
+                        { this.state.view === option.view ?
+                          <Icon name={option.icon} size={45} color='cyan'/> :
+                          <Icon name={option.icon}/>
+                        }                      
+                      </Col>
+                    </Row>
+                  </Button>
+                )
+              }
+            </ButtonGroup>
+            {/* separator */}
+            <div style={style.separator}></div>
+            {/* background options */}
+            <ButtonGroup vertical block bsSize="large" className="side-menu-button-group">
+              {
+                backgroundOptions.map( option =>
+                  <Button onClick={()=> {this.changeBackground(option.background)}}>
+                    <Row>
+                      <Col xs={12}>
+                        { this.state.background === option.background ?
+                          <Icon name={option.icon} size={45} color='cyan'/> :
+                          <Icon name={option.icon}/>
+                        }
+                      </Col>
+                    </Row>
+                  </Button>
+                )
+              }
+            </ButtonGroup>
+            <div style={{height: 50}}></div>
+          </div>
         </Menu>
         {/* content (views) */}
         { this.state.view === 'ViewArt' && <ViewArt fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
         { this.state.view === 'ViewArtInfo' && <ViewArtInfo fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
         { this.state.view === 'ViewLyrics' && <ViewLyrics fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
         {/* about button */}
-        <Navbar fixedBottom style={{...style.navbar, textAlign: 'left'}} className="nav-about">
-          { this.state.showAbout && !this.state.menuIsOpen &&
-            <Button bsStyle="info" onClick={()=> this.toggleModal(true)}>About</Button>
-          }
-        </Navbar>
+        { this.state.showAbout && !this.state.menuIsOpen &&
+          <Button onClick={()=> this.toggleModal(true)} className="nav-about">
+            <Icon name="about"/>
+          </Button>
+        }
         {/* about modal */}
         <Modal show={this.state.showModal} onHide={()=> this.toggleModal(false)} className="modal-about">
           <Modal.Header>
@@ -245,7 +253,7 @@ export class MainMenu extends Component {
             <Button onClick={()=> this.toggleModal(false)}>Close</Button>
           </Modal.Footer>
         </Modal>
-        <div id="backgroundDiv" style={this.state.background}></div>
+        <div id="backgroundDiv" style={this.state.backgroundStyle}></div>
       </div>
     );
   }
