@@ -19,7 +19,7 @@
 .vai-info {
     width: 35%;
     text-align: left;
-    text-shadow:  1px 1px 5px rgb(70, 70, 70);
+    /*text-shadow:  1px 1px 5px rgb(70, 70, 70);*/
 }
 .vai-content {
     position: absolute;
