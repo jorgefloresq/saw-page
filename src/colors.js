@@ -5,6 +5,7 @@ export async function getColors(albumArt) {
 
     //Array stores HSL Values
     let colorHSLArray = [];
+    let colorArray = [];
 
     //Number stored is highest population of all evaluated swatches
     let maxPop = 0;
@@ -27,23 +28,30 @@ export async function getColors(albumArt) {
             //console.log(swatch, palette[swatch].getHex(), palette[swatch]._hsl);
             //in case the color swatch is null it will not be added to array
             if(palette[swatch] != null){
-                console.log(swatch, palette[swatch].getHex(), palette[swatch]._hsl);
-                swatchHSL = palette[swatch]._hsl;
-                colorHSLArray.push(swatchHSL);
-
-                //Store population if larger than previous
-                if (palette[swatch]._population > maxPop) {
+                if(palette[swatch]._hsl != null){
+                    swatchHSL = palette[swatch]._hsl;
+                    colorHSLArray.push(swatchHSL);
+                    console.log("entro", swatchHSL);
+                    //Store population if larger than previous
+                    if (palette[swatch]._population > maxPop) {
                     maxPop = palette[swatch]._population;
                     mainColor = swatchHSL;
+                    }
                 }
+                
             }
         }
+
+
         //call function to compute different colors
+
+        console.log("colorArray: ",colorArray);
         secondaryColor = getSecondaryColor(colorHSLArray, mainColor[2]);
         gradientColor = getGradientColor(colorHSLArray, mainColor[0]);
+        console.log("gradientColor", gradientColor);
 
         //convert all colors to hex from HSL
-        let colorArray = [hslToHex(
+        colorArray = [hslToHex(
             mainColor[0],
             mainColor[1],
             mainColor[2]
@@ -60,6 +68,7 @@ export async function getColors(albumArt) {
 
 
         //Return array of hex values
+        console.log(mainColor, secondaryColor)
         console.log(colorArray)
         return colorArray;
     });
@@ -68,14 +77,31 @@ export async function getColors(albumArt) {
 
 //Compares main color with all colors of array to evaluate highest luminous contrast
 function getSecondaryColor(colorMap, mainLum) {
+
+    //Minimum acceptable luminosity difference
+    const minLumDiff = .35;
+
+    //threshold that defines if color is dark or bright
+    const thresh = .42;
+
     let maxLumDiff = 0;
     let secondarySwatch;
     for (let hsl of colorMap) {
-        if (Math.abs(hsl[2] - mainLum) > maxLumDiff) {
+        if (Math.abs(hsl[2] - mainLum) >= maxLumDiff) {
             maxLumDiff = Math.abs(hsl[2] - mainLum);
             secondarySwatch = hsl;
         }
     }
+    
+    if (maxLumDiff < minLumDiff){
+        if(mainLum < thresh){
+            secondarySwatch[2] += (minLumDiff - maxLumDiff);
+        }
+        else{
+            secondarySwatch[2] -= (minLumDiff - maxLumDiff);
+        }
+    }
+    
     return secondarySwatch;
 };
 
@@ -84,7 +110,7 @@ function getGradientColor(colorMap, mainHue) {
     let minHueDiff = 1;
     let gradientSwatch;
     for (let hsl of colorMap) {
-        if ((Math.abs(hsl[0] - mainHue) < minHueDiff) && mainHue != hsl[0]) {
+        if ((Math.abs(hsl[0] - mainHue) < minHueDiff)) {
             minHueDiff = hsl[0];
             gradientSwatch = hsl;
         }
@@ -96,6 +122,6 @@ function getGradientColor(colorMap, mainHue) {
 function hslToHex(h ,s ,l){
     let rgb = Vibrant.Util.hslToRgb(h, s, l);
     let hex = Vibrant.Util.rgbToHex(rgb[0], rgb[1], rgb[2]);
-
+    console.log(hex)
     return hex;
 }

@@ -55,7 +55,7 @@ export class MainMenu extends Component {
       view: 'ViewArt',
       background: defaultB,
       fontColor: 'white',
-      albumArt: 'https://i.scdn.co/image/6ff58698ffb3e39ba66eae5b7028e047b321d965'
+      albumArt: 'https://i.scdn.co/image/9f970a330561ac928fc9a8265dea3c003be9e964'
     };
   }
   // wait counter (wait 3s to hide menu buttons)
