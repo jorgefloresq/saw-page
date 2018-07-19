@@ -1,15 +1,24 @@
-/* about button */
-.nav-about div.container{
-    margin-left: 0;
+/* nav buttons */
+.nav-about, .nav-menu {
+    position: absolute;
+    background: transparent !important;
+    border-style: none !important;
+    z-index: 10;
 }
+/* about button */
+.nav-about {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+/* menu button */
 .nav-menu {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 10;
 }
-button.nav-menu:focus {
-    outline: 0;
+button.nav-about:focus, button.nav-menu:focus {
+    outline: 0 !important;
 }
 /* about modal */
 .modal-about .modal-dialog {
@@ -38,11 +47,7 @@ button.nav-menu:focus {
 .bm-burger-button {
     /* prevent menu from opening by clicking anywhere on the screen */
     position: fixed;
-}  
-/* Color/shape of burger icon bars */
-/* .bm-burger-bars {
-    background: #373a47;
-} */
+}
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
     height: 30px !important;
@@ -65,4 +70,20 @@ button.nav-menu:focus {
 }
 #backgroundDiv{
     transition: background 1000ms ease-in-out;
+}
+@media screen and (max-width: 320px) {
+    .bm-menu-wrap {
+        width: 200px !important;
+    }
+}
+@media screen and (max-height: 669px) {
+    .bm-menu-wrap button.btn.btn-default {
+        padding: 0 0 0.2vh 0;
+    }
+    .bm-item svg {
+        width: 5vh;
+        height: 5vh;
+        min-width: 24px;
+        min-height: 24px;
+    }
 }
