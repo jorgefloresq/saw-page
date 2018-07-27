@@ -7,9 +7,7 @@ export class ViewArt extends Component {
     return (
       <div>
         <div className="square">
-          <div className="content">
           <img src={this.props.albumArt}/>
-          </div>
         </div>
       </div>
     );
