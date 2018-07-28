@@ -4,6 +4,7 @@ import { MainMenu } from './components/main-menu';
 import queryString from 'query-string';
 import { defaultB, dynamic, blurred } from './components/background-styles';
 import { getColors } from './colors';
+import { ConnectAuth } from './components/connect-auth';
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class App extends Component {
       artists: '',
       songName: '',
       background: 'Default',
-      backgroundStyle: { defaultB }
+      backgroundStyle: { defaultB },
+      loggedIn: false
     };
     this.changeBackground = this.changeBackground.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -21,12 +23,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // function fetches data, changes background and sets states
-    this.loadData();
-    // load data every 3 seconds
-    setInterval(() => {
-      this.loadData();
-    }, 3000);
+    let accessToken = this.getToken();
+    if (accessToken) {
+      this.setState({ loggedIn: true });
+      // function fetches data, changes background and sets states
+      this.loadData(accessToken);
+      // load data every 3 seconds
+      setInterval(() => {
+        this.loadData(accessToken);
+      }, 3000);
+    }
+    else {
+      this.setState({ loggedIn: false });
+    }
   }
 
   //Changes background colors and evaluates colors if dynamic
@@ -74,10 +83,10 @@ class App extends Component {
       fontColor: fc
     })
   }
-  async loadData() {
+  async loadData(accessToken) {
     //Initial data fetch
     let data;
-    await this.fetchData().then(result => {
+    await this.fetchData(accessToken).then(result => {
       data = result;
     });
     this.changeBackground(this.state.background, data.albumArt);
@@ -88,16 +97,17 @@ class App extends Component {
     })
   }
 
-  fetchData() {
+  getToken() {
     //Retrieve URL String
     let parsed = queryString.parse(window.location.search);
 
     //Stores accesstoken from URL String
     let accessToken = parsed.access_token;
 
-    //Checks if access token is retrieved 
-    if (!accessToken)
-      return;
+    return accessToken;
+  }
+
+  fetchData(accessToken) {
     //fetch() receives endpoint and headers as arguments
     return fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': 'Bearer ' + accessToken }
@@ -125,15 +135,18 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <MainMenu
-          albumArt={this.state.albumArt}
-          artists={this.state.artists}
-          songName={this.state.songName}
-          backgroundStyle={this.state.backgroundStyle}
-          fontColor={this.state.fontColor}
-          onChangeBackground={this.changeBackground}
-          background={this.state.background}
-        />
+        {this.state.loggedIn ?
+          <MainMenu
+            albumArt={this.state.albumArt}
+            artists={this.state.artists}
+            songName={this.state.songName}
+            backgroundStyle={this.state.backgroundStyle}
+            fontColor={this.state.fontColor}
+            onChangeBackground={this.changeBackground}
+            background={this.state.background}
+          /> :
+          <ConnectAuth />
+        }
       </div>
     );
   }
