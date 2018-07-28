@@ -12,7 +12,10 @@ export class ViewArtInfo extends Component {
               <img src={this.props.albumArt}/>
             </div>
             <div id="textDiv" style={{color: this.props.fontColor}} className="vai-info">
-              <SongInfo/>
+              <SongInfo 
+                songName={this.props.songName}
+                artists={this.props.artists}
+              />
             </div>
           </div>
         </div>

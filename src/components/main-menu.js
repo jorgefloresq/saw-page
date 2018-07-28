@@ -57,7 +57,9 @@ export class MainMenu extends Component {
       backgroundStyle: defaultB,
       fontColor: 'white',
       cursor: 'default',
-      albumArt: 'https://i.scdn.co/image/9f970a330561ac928fc9a8265dea3c003be9e964'
+      //albumArt: this.props.albumArt,
+      //artists: this.props.artists,
+      //songName: this.props.songName
     };
   }
   // wait counter (wait 3s to hide menu buttons)
@@ -68,6 +70,12 @@ export class MainMenu extends Component {
     document.addEventListener("mousemove", this.handleMouseMove);
     // hide menu buttons
     this.hideButtons();
+    console.log("component did mount");
+  
+  }
+
+  componentWillReceiveProps(){
+    //this.changeBackground(this.state.background);
   }
 
   handleMouseMove() {
@@ -139,7 +147,7 @@ export class MainMenu extends Component {
     // dynamic background selected
     else if (background === 'Dynamic') {
 
-      await getColors(this.state.albumArt).then( colors => {
+      await getColors(this.props.albumArt).then( colors => {
         //assign colors from array
         let mainColor = colors[0];
         let secondaryColor = colors[1];
@@ -157,7 +165,7 @@ export class MainMenu extends Component {
     else {
       // set background
       bg = { 
-        background: `url(${this.state.albumArt})`,
+        background: `url(${this.props.albumArt})`,
         ...blurred
       };      
     }
@@ -230,9 +238,28 @@ export class MainMenu extends Component {
           </div>
         </Menu>
         {/* content (views) */}
-        { this.state.view === 'ViewArt' && <ViewArt fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
-        { this.state.view === 'ViewArtInfo' && <ViewArtInfo fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
-        { this.state.view === 'ViewLyrics' && <ViewLyrics fontColor={this.state.fontColor} albumArt={this.state.albumArt}/> }
+        { this.state.view === 'ViewArt' && 
+          <ViewArt 
+            fontColor={this.state.fontColor} 
+            albumArt={this.props.albumArt}
+          />
+        }
+        { this.state.view === 'ViewArtInfo' && 
+          <ViewArtInfo 
+            fontColor={this.state.fontColor} 
+            albumArt={this.props.albumArt}
+            artists={this.props.artists}
+            songName={this.props.songName}
+          /> 
+        }
+        { this.state.view === 'ViewLyrics' && 
+          <ViewLyrics 
+            fontColor={this.state.fontColor} 
+            albumArt={this.props.albumArt}
+            artists={this.props.artists}
+            songName={this.props.songName}
+          /> 
+        }
         {/* about button */}
         { this.state.showAbout && !this.state.menuIsOpen &&
           <Button onClick={()=> this.toggleModal(true)} className="nav-about">

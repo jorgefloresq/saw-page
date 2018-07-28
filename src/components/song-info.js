@@ -3,13 +3,13 @@ import '../css/song-info.css'
 
 export class SongInfo extends Component {
   render() {
-  let artist = "Artist";
-  let songTitle = "Song Title";
+  let artists = this.props.artists;
+  let songName = this.props.songName;
 
     return (
       <div>
-        <h2 className="song-title">{ songTitle }</h2>
-        <h3 className="song-artist">{ artist }</h3>
+        <h2 className="song-title">{ songName }</h2>
+        <h3 className="song-artist">{ artists }</h3>
       </div>
     );
   }

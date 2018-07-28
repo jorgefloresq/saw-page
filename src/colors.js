@@ -31,7 +31,6 @@ export async function getColors(albumArt) {
                 if(palette[swatch]._hsl != null){
                     swatchHSL = palette[swatch]._hsl;
                     colorHSLArray.push(swatchHSL);
-                    console.log("entro", swatchHSL);
                     //Store population if larger than previous
                     if (palette[swatch]._population > maxPop) {
                     maxPop = palette[swatch]._population;
@@ -45,10 +44,8 @@ export async function getColors(albumArt) {
 
         //call function to compute different colors
 
-        console.log("colorArray: ",colorArray);
         secondaryColor = getSecondaryColor(colorHSLArray, mainColor[2]);
         gradientColor = getGradientColor(colorHSLArray, mainColor[0]);
-        console.log("gradientColor", gradientColor);
 
         //convert all colors to hex from HSL
         colorArray = [hslToHex(
@@ -68,8 +65,8 @@ export async function getColors(albumArt) {
 
 
         //Return array of hex values
-        console.log(mainColor, secondaryColor)
-        console.log(colorArray)
+        //console.log(mainColor, secondaryColor)
+        // console.log(colorArray)
         return colorArray;
     });
 
