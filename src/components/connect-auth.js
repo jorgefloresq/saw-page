@@ -33,10 +33,15 @@ export class ConnectAuth extends Component {
             <Col sm={4} md={4} lg={4} style={colWire}>
               <div>
                 <h2 style={txtConnect}>Connect with Spotify</h2>
-                <Button onClick={()=> window.location='http://localhost:8888/login'} bsStyle="success" bsSize="large">Connect</Button>
+                <Button onClick={() => {
+                  window.location = window.location.href.includes('localhost')
+                    ? 'http://localhost:8888/login'
+                    : 'https://saw-backend.herokuapp.com/login'
+                }
+                } bsStyle="success" bsSize="large">Connect</Button>
               </div>
             </Col>
-            <Col sm={4} md={4} lg={4}> 
+            <Col sm={4} md={4} lg={4}>
             </Col>
           </Row>
           <Row className="show-grid">
