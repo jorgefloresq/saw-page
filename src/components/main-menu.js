@@ -5,8 +5,6 @@ import '../../src/css/main-menu.css';
 import { ViewArt } from './view-art';
 import { ViewArtInfo } from './view-art-info';
 import { ViewLyrics } from './view-lyrics';
-import { defaultB, dynamic, blurred } from './background-styles';
-import { getColors } from '../colors';
 import { Icon } from './icon';
 
 let navbar = {
@@ -197,6 +195,7 @@ export class MainMenu extends Component {
             albumArt={this.props.albumArt}
             artists={this.props.artists}
             songName={this.props.songName}
+            backgroundType={this.props.backgroundType}
           />
         }
         {this.state.view === 'ViewLyrics' &&
