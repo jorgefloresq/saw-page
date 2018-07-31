@@ -75,10 +75,15 @@ class App extends Component {
       fc = 'white';
       // set background
       bg = {
-        height: height,
+        position: 'fixed',
+        top: -5,
+        right: -5,
+        bottom: -5,
+        left: -5,
+        margin: -25,
         background: `url(${albumArt}) center center / cover`,
-        color: fc,
-        filter: 'blur(10px)'
+        filter: 'blur(20px)',
+        color: fc
       };
     }  
     // Set Background states
