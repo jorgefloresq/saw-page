@@ -3,7 +3,7 @@
     position: absolute;
     background: transparent !important;
     border-style: none !important;
-    z-index: 10;
+    z-index: 11;
 }
 /* about button */
 .nav-about {

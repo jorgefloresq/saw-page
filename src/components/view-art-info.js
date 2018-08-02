@@ -6,7 +6,7 @@ export class ViewArtInfo extends Component {
   render() {
     let textShadow;
     if (this.props.backgroundType === 'Blurred') {
-      textShadow = '2px 2px 5px rgb(70, 70, 70)';
+      textShadow = '2px 2px 10px rgb(70, 70, 70)';
     }
     return (
       <div>
