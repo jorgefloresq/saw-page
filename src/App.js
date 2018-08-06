@@ -125,7 +125,7 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(async data => {
-      console.log(data);
+      // console.log(data);
       // get current song's id
       let id = data.item.id;
       //Grabs any artist in the artists array and creates string
