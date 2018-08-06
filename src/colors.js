@@ -119,6 +119,6 @@ function getGradientColor(colorMap, mainHue) {
 function hslToHex(h ,s ,l){
     let rgb = Vibrant.Util.hslToRgb(h, s, l);
     let hex = Vibrant.Util.rgbToHex(rgb[0], rgb[1], rgb[2]);
-    console.log(hex)
+    // console.log(hex)
     return hex;
 }

@@ -62,8 +62,8 @@ export class MainMenu extends Component {
     document.addEventListener("mousemove", this.handleMouseMove);
     // hide menu buttons
     this.hideButtons();
-    console.log("component did mount");
-    console.log(this.props.backgroundStyle);
+    // console.log("component did mount");
+    // console.log(this.props.backgroundStyle);
   }
 
   handleMouseMove() {
