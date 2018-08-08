@@ -8,31 +8,43 @@ import { ConnectAuth } from './components/connect-auth';
 class App extends Component {
   constructor(props) {
     super(props)
+    // state object
     this.state = {
       albumArt: '',
       artists: '',
       songName: '',
       background: 'Default',
       backgroundStyle: { background: 'rgb(31, 37, 43)' },
-      loggedIn: false
+      view: 'ViewArt',
+      loggedIn: false,
+      nowPlaying: false
     };
+    // function binding
     this.changeBackground = this.changeBackground.bind(this);
+    this.changeView = this.changeView.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.loadData = this.loadData.bind(this);
   }
 
   componentDidMount() {
+    // get access token
     let accessToken = this.getToken();
+    // access token found
     if (accessToken) {
-      this.setState({ loggedIn: true });
-      // function fetches data, changes background and sets states
-      this.loadData(accessToken);
-      // load data every 3 seconds
+      // user is logged in
+      this.setState({ loggedIn: true });   
+      // load data (3s intervals)
       setInterval(() => {
-        this.loadData(accessToken);
+        this.loadData(accessToken).catch( error => {
+          console.log(error.message);
+          // no music is playing
+          this.setState({ nowPlaying: false });
+        });
       }, 3000);
     }
+    // no access token found
     else {
+      // user is not logged in
       this.setState({ loggedIn: false });
     }
   }
@@ -94,6 +106,10 @@ class App extends Component {
     });
   }
 
+  changeView(view) {
+    this.setState({ view: view });
+  }
+
   async loadData(accessToken) {
     //Initial data fetch
     let data;
@@ -106,7 +122,8 @@ class App extends Component {
     this.setState({
       albumArt: data.albumArt,
       artists: data.artists,
-      songName: data.songName
+      songName: data.songName,
+      nowPlaying: true
     });
   }
 
@@ -145,21 +162,32 @@ class App extends Component {
       };
     });
   }
+
   render() {
     return (
       <div className="App">
-        { this.state.loggedIn ?
-          <MainMenu
-            albumArt={this.state.albumArt}
-            artists={this.state.artists}
-            songName={this.state.songName}
-            backgroundStyle={this.state.backgroundStyle}
-            fontColor={this.state.fontColor}
-            onChangeBackground={this.changeBackground}
-            background={this.state.background}
-            backgroundType={this.state.background}
-          /> :
-          <ConnectAuth />
+        { this.state.loggedIn
+          ? this.state.nowPlaying
+            ? <MainMenu
+                albumArt={this.state.albumArt}
+                artists={this.state.artists}
+                songName={this.state.songName}
+                backgroundStyle={this.state.backgroundStyle}
+                fontColor={this.state.fontColor}
+                onChangeBackground={this.changeBackground}
+                background={this.state.background}
+                backgroundType={this.state.background}
+                view={this.state.view}
+                onViewChange={this.changeView}
+              />
+            : <div>
+                <h1 className='nothing-playing'>No music playing</h1>
+                <div style={{
+                  background: 'rgb(31, 37, 43)',
+                  height: '100vh'
+                }}></div>
+              </div>
+          : <ConnectAuth />
         }
       </div>
     );

@@ -49,8 +49,6 @@ export class MainMenu extends Component {
       showModal: false,
       showMenu: true,
       menuIsOpen: false,
-      view: 'ViewArt',
-      background: '',
       cursor: 'default'
     };
   }
@@ -112,12 +110,10 @@ export class MainMenu extends Component {
   }
 
   handleMenuItem(view) {
-    this.setState({
-      // change view
-      view: view,
-      // close menu
-      menuIsOpen: false,
-    });
+    // change view
+    this.props.onViewChange(view);
+    // close menu
+    this.setState({ menuIsOpen: false });
   }
 
   toggleModal(toggleValue) {
@@ -144,7 +140,7 @@ export class MainMenu extends Component {
                   <Button onClick={() => this.handleMenuItem(option.view)}>
                     <Row>
                       <Col xs={12}>
-                        {this.state.view === option.view ?
+                        {this.props.view === option.view ?
                           <Icon name={option.icon} size={45} color='cyan' /> :
                           <Icon name={option.icon} />
                         }
@@ -183,13 +179,13 @@ export class MainMenu extends Component {
           </div>
         </Menu>
         {/* content (views) */}
-        {this.state.view === 'ViewArt' &&
+        {this.props.view === 'ViewArt' &&
           <ViewArt
             fontColor={this.props.fontColor}
             albumArt={this.props.albumArt}
           />
         }
-        {this.state.view === 'ViewArtInfo' &&
+        {this.props.view === 'ViewArtInfo' &&
           <ViewArtInfo
             fontColor={this.props.fontColor}
             albumArt={this.props.albumArt}
@@ -198,7 +194,7 @@ export class MainMenu extends Component {
             backgroundType={this.props.backgroundType}
           />
         }
-        {this.state.view === 'ViewLyrics' &&
+        {this.props.view === 'ViewLyrics' &&
           <ViewLyrics
             fontColor={this.props.fontColor}
             albumArt={this.props.albumArt}
@@ -219,7 +215,7 @@ export class MainMenu extends Component {
           </Modal.Header>
           <Modal.Body>
             <p>
-              Spotify ArtWork Website for displaying music info, albumart and lyrics.
+              Spotify ArtWork Website for displaying music info, album art and lyrics.
             </p>
           </Modal.Body>
           <Modal.Footer>
