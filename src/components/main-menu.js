@@ -141,7 +141,7 @@ export class MainMenu extends Component {
                     <Row>
                       <Col xs={12}>
                         {this.props.view === option.view ?
-                          <Icon name={option.icon} size={45} color='cyan' /> :
+                          <Icon name={option.icon} size={45} color='rgb(255, 83, 100)' /> :
                           <Icon name={option.icon} />
                         }
                       </Col>
@@ -166,7 +166,7 @@ export class MainMenu extends Component {
                     <Row>
                       <Col xs={12}>
                         {this.props.background === option.background ?
-                          <Icon name={option.icon} size={45} color='cyan' /> :
+                          <Icon name={option.icon} size={45} color='rgb(255, 83, 100)' /> :
                           <Icon name={option.icon} />
                         }
                       </Col>
