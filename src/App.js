@@ -36,7 +36,7 @@ class App extends Component {
       // load data (3s intervals)
       setInterval(() => {
         this.loadData(accessToken).catch( error => {
-          console.log(error.message);
+          console.log(error.message);          
           // no music is playing
           this.setState({ nowPlaying: false });
         });
@@ -140,7 +140,19 @@ class App extends Component {
     return fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': 'Bearer ' + accessToken }
     })
-    .then(response => response.json())
+    .then(response => {
+      // console.log(response);
+      // token expired
+      if (response.status === 401) {
+        window.location = window.location.href.includes('localhost')
+          ? 'http://localhost:8888/refresh'
+          : 'https://saw-backend.herokuapp.com/refresh';        
+      }
+      // token is active
+      else {
+        return response.json();
+      }
+    })
     .then(async data => {
       // console.log(data);
       // get current song's id
