@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { Grid } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+import lyricist from 'lyricist';
 
 //Defines height of columns within rows
 let colWire = {
@@ -19,6 +20,11 @@ let txtConnect = {
 };
 
 export class ConnectAuth extends Component {
+  async componentDidMount() {
+    const _lyricist = new lyricist('gVpCQ3qUJnll1jqNteqkbfglCuPF9mdki_TortZigmYnEHkHgicinMsvxtL3t3k6');
+    const song = await _lyricist.song(714198, { fetchLyrics: true });
+    console.log(song.lyrics);
+  }
   render() {
     return (
       <div>

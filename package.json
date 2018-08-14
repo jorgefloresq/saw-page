@@ -5,6 +5,7 @@
   "dependencies": {
     "@akigami/vibrant": "^0.1.1",
     "bootstrap": "^3.3.7",
+    "lyricist": "^2.2.2",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
     "react-burger-menu": "^2.5.2",
