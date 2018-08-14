@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { Grid } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
-import lyricist from 'lyricist';
+const lyricist = require('lyricist/node6');
 
 //Defines height of columns within rows
 let colWire = {
