@@ -60,7 +60,7 @@ button.nav-about:focus, button.nav-menu:focus {
 }
 /* General sidebar styles */
 .bm-menu {
-    background: #373a47;
+    background: rgb(53, 73, 94);
     padding: 2.5em 1.5em 0;
     font-size: 1.15em;
 }
