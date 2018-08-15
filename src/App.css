@@ -28,10 +28,25 @@
   to { transform: rotate(360deg); }
 }
 
-.nothing-playing {
+.nothing-playing, .connect {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+}
+
+.connect h1 {
+  color: white;
+}
+
+.connect-button.btn-default {
+  margin-top: 25px;
+  background: rgb(255, 83, 100);
+  border-style: none;
+  color: white;
+}
+
+.connect-button.btn-default:focus {
+  outline: 0 !important;
 }

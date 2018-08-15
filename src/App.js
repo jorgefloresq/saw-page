@@ -3,7 +3,7 @@ import './App.css';
 import { MainMenu } from './components/main-menu';
 import queryString from 'query-string';
 import { getColors } from './colors';
-import { ConnectAuth } from './components/connect-auth';
+import { Button } from 'react-bootstrap';
 
 class App extends Component {
   constructor(props) {
@@ -194,12 +194,22 @@ class App extends Component {
               />
             : <div>
                 <h1 className='nothing-playing'>No music playing</h1>
-                <div style={{
-                  background: 'rgb(31, 37, 43)',
-                  height: '100vh'
-                }}></div>
+                <div style={{ background: 'rgb(31, 37, 43)', height: '100vh' }}></div>
               </div>
-          : <ConnectAuth />
+          : <div> 
+              <div className="connect">
+                <h1>Connect with Spotify</h1>
+                <Button className="connect-button" onClick={() => {
+                  window.location = window.location.href.includes('localhost')
+                    ? 'http://localhost:8888/login'
+                    : 'https://saw-backend.herokuapp.com/login'
+                  }} 
+                  bsSize="large">
+                  Connect
+                </Button>              
+              </div>
+              <div style={{ background: 'rgb(31, 37, 43)', height: '100vh' }}></div>
+            </div>
         }
       </div>
     );
